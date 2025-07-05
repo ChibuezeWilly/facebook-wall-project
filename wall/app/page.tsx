@@ -10,7 +10,6 @@ interface Post {
   created_at: string;
 }
 
-const PROFILE_PLACEHOLDER = "/profile-placeholder.png"; // Place a placeholder image in public/
 const DEFAULT_NAME = "Chibueze Williams";
 
 // Helper to format relative time
@@ -212,7 +211,7 @@ export default function Wall() {
               </Button>
             </form>
             <div
-              className="w-full flex flex-col gap-0 overflow-y-auto mt-4 h-full"
+              className="w-full flex flex-col gap-0 overflow-y-auto mt-4 min-h-screen h-auto"
               
             >
               {posts.map((post) => (
