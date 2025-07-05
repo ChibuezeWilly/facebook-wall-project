@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 interface Post {
   id: string;
@@ -113,29 +114,36 @@ export default function Wall() {
         <div className="w-full mt-1 h-[35px] bg-blue-400 text-white flex items-center text-base rounded-t-md">
           <p className="ml-5">Wall</p>
         </div>
-        <div className="flex flex-1 w-full min-h-screen md:flex-row bg-white overflow-hidden px-3 md:px-8 mt-3">
+        <div className="w-full min-h-screen flex flex-1 flex-col md:flex-row bg-white overflow-hidden px-3 md:px-5 mt-3">
           {/* Sidebar */}
-          <aside className="w-56 h-full flex-shrink-0 flex flex-col items-start justify-start pt-4">
+          <aside className="w-full md:w-56 h-full flex-shrink-0 flex flex-col items-start justify-start pt-4">
+            <div>
+
+            </div>
             {profilePhoto ? (
-              <>
+              profilePhoto.startsWith('data:') ? (
                 <img
                   src={profilePhoto}
                   alt="Profile"
-                 
                   className="rounded-md h-60 w-48 object-cover border-2 border-white shadow-lg mb-4"
-                  
                 />
-                <div className="font-bold text-base leading-tight text-start w-full">{DEFAULT_NAME}</div>
-                <div className="text-base text-gray-600 text-start w-full mb-2">wall</div>
-              </>
+              ) : (
+                <Image
+                  src={profilePhoto}
+                  alt="Profile"
+                  width={192}
+                  height={240}
+                  className="rounded-md h-60 w-48 object-cover border-2 border-white shadow-lg mb-4"
+                />
+              )
             ) : (
-              <div className="flex flex-row items-center w-full mb-2">
+              <div className="flex flex-row items-start w-full mb-2">
                 <div className="flex flex-col items-center mr-3">
                   <div className="w-20 h-20 rounded-full bg-gray-200 flex items-center justify-center text-2xl font-bold text-gray-500">
                     {getInitials(DEFAULT_NAME)}
                   </div>
                 </div>
-                <div className="flex flex-col justify-center">
+                <div className="flex flex-col justify-start">
                   <div className="font-bold text-lg leading-tight">{DEFAULT_NAME}</div>
                   <div className="text-base text-gray-600">wall</div>
                   <label htmlFor="profile-photo-upload" className="mt-1 cursor-pointer text-xs text-blue-600 hover:underline striped-input mt-1 w-[80%] h-10">
@@ -150,7 +158,7 @@ export default function Wall() {
                 </div>
               </div>
             )}
-            
+            <div className="font-bold text-base leading-tight text-start w-full">{DEFAULT_NAME}</div>
             <div
               className="bg-gray-100 h-10 px-2 flex justify-center items-center rounded-md border-gray-200 text-black text-sm mb-2 mt-2"
               style={{ borderWidth: "2px" }}
@@ -170,7 +178,7 @@ export default function Wall() {
           </aside>
           {/* Main Wall */}
           <main
-            className="border-l-gray-300 flex flex-col min-h-screen h-auto px-4 w-full"
+            className="border-l-gray-300 flex flex-col h-auto px-4 w-full"
             style={{ borderLeftWidth: "2px" }}
           >
             <form onSubmit={handleSubmit} className="flex flex-col gap-2 mt-4">
@@ -221,11 +229,21 @@ export default function Wall() {
                 >
                   <div className="font-bold text-base mb-1">{post.name}</div>
                   {post.photo && (
-                    <img
-                      src={post.photo}
-                      alt="Wall post"
-                      className="w-60 h-60 max-w-xs rounded-md mb-2"
-                    />
+                    post.photo.startsWith('data:') ? (
+                      <img
+                        src={post.photo}
+                        alt="Wall post"
+                        className="w-60 h-60 max-w-xs rounded-md mb-2 object-cover"
+                      />
+                    ) : (
+                      <Image
+                        src={post.photo}
+                        alt="Wall post"
+                        width={240}
+                        height={240}
+                        className="w-60 h-60 max-w-xs rounded-md mb-2 object-cover"
+                      />
+                    )
                   )}
                   <div className="whitespace-pre-line mb-1 text-base">
                     {post.message}
